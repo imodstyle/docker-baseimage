@@ -78,7 +78,8 @@ jobs:
           fi
           # Determine the Docker container tags.
           TAGS="${{ env.DOCKER_IMAGE_NAME }}:${{ fromJSON(matrix.info).tag_prefix }}-${VERSION}"
-          if [[ $VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          #Only one release, no sub version
+          #if [[ $VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             # For version with format vX.Y.Z, we want to add additional tags:
             #   - vX.Y
             #   - vX
