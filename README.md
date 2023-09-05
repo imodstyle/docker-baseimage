@@ -56,8 +56,8 @@ Different docker images are available:
 
 | Base Distribution  | Docker Image Base Tag | Size |
 |--------------------|-----------------------|------|
-| [Alpine 3.18]      | alpine-3.18           | [![](https://img.shields.io/docker/image-size/jlesage/baseimage/alpine-3.18-v3?style=for-the-badge)](#)  |
-| [Ubuntu 22.04 LTS] | ubuntu-22.04          | [![](https://img.shields.io/docker/image-size/jlesage/baseimage/ubuntu-22.04-v3?style=for-the-badge)](#) |
+| [Alpine 3.18.3]      | alpine-3.18           | 
+| [Ubuntu 22.04 LTS] | ubuntu-22.04          | 
 
 [Alpine 3.18]: https://alpinelinux.org
 [Ubuntu 22.04 LTS]: http://releases.ubuntu.com/22.04/
@@ -109,7 +109,7 @@ NodeJS server.
 In `Dockerfile`:
 ```Dockerfile
 # Pull base image.
-FROM jlesage/baseimage:alpine-3.15-v3
+FROM imodstyle/baseimage:alpine-3.18
 
 # Install http-server.
 RUN add-pkg nodejs-npm && \
