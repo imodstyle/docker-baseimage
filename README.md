@@ -56,10 +56,10 @@ Different docker images are available:
 
 | Base Distribution  | Docker Image Base Tag |
 |--------------------|-----------------------|
-| [Alpine 3.18.3]      | alpine-3.18.3         | 
+| [Alpine 3.18.4]      | alpine-3.18.4         | 
 | [Ubuntu 22.04 LTS] | ubuntu-22.04          | 
 
-[Alpine 3.18.3]: https://alpinelinux.org
+[Alpine 3.18.4]: https://alpinelinux.org
 [Ubuntu 22.04 LTS]: http://releases.ubuntu.com/22.04/
 
 ### Content
