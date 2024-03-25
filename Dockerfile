@@ -151,7 +151,7 @@ ENV \
     SUP_GROUP_IDS= \
     UMASK=0022 \
     LANG=en_US.UTF-8 \
-    TZ=Etc/UTC \
+    TZ=Asia/Jakarta \
     KEEP_APP_RUNNING=0 \
     APP_NICENESS=0 \
     INSTALL_PACKAGES= \
