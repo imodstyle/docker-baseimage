@@ -1,0 +1,79 @@
+# CircleCI configuration file
+
+version: 2.1
+orbs:
+  bats: circleci/bats@1.1.0
+commands:
+  set_environment_vars:
+    steps:
+    - run:
+        command: |
+          echo "export DOCKER_IMAGE_NAME=imodstyle/baseimage" >> $BASH_ENV
+jobs:
+  build:
+    docker:
+    - image: ubuntu:20.04
+    steps:
+    - checkout
+    - set_environment_vars
+    - run:
+        name: Free disk space
+        command: |
+          echo "::group::Before"
+          df -h /
+          echo "::endgroup::"
+          echo "::group::Removing unneeded softwares and files..."
+          for DIR in /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          do
+              if [ -d "$DIR" ]; then
+              echo "Removing $DIR..."
+              sudo rm -r "$DIR"
+              fi
+          done
+          echo "::endgroup::"
+          echo "::group::After"
+          df -h /
+          echo "::endgroup::"
+    - run:
+          name: Setup buildx and qemu
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y qemu-user-static
+            sudo apt-get install -y binfmt-support
+    docker:
+      - image: cimg/base:2022.09
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-{{ master }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f ./docker-compose.test.yml up
+      - run:
+          name: Build and Push application Docker image
+          command: |
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build -t $DOCKERHUB_USERNAME/circleci-docker-example:$TAG .
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker push $DOCKERHUB_USERNAME/circleci-docker-example:$TAG
+workflows:
+  Docker_Baseimage_CI_CD:
+    jobs:
+    - build
+    - bats/run:
+          formatter: junit
+          path: ./tests
+          timing: true
