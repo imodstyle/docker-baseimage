@@ -41,9 +41,6 @@ jobs:
             sudo apt-get install -y qemu-user-static
             sudo apt-get install -y binfmt-support
     - image: cimg/base:2022.09
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - setup_remote_docker
